@@ -97,6 +97,45 @@ seq:
     type: u4
     enum: game_data_version
     if: version >= 30
+  - id: default_cam_distance
+    type: u4
+    if: version >= 32
+  - id: default_max_cam_distance
+    type: u4
+    if: version >= 32
+  - id: default_min_cam_distance
+    type: u4
+    if: version >= 33
+  - id: hd_water_min_opacity
+    type: u4
+    if: version >= 34
+  - id: hd_water_max_opacity
+    type: u4
+    if: version >= 34
+  - id: hd_water_reflectivity
+    type: u4
+    if: version >= 34
+  - id: hd_water_emissivity
+    type: u4
+    if: version >= 34
+  - id: hd_water_edge_softness
+    type: u4
+    if: version >= 34
+  - id: hd_water_waves_vertex_displacement
+    type: u4
+    if: version >= 34
+  - id: hd_water_waves_normal_map_strength
+    type: u4
+    if: version >= 34
+  - id: hd_water_color
+    type: water_color
+    if: version >= 34
+  - id: hd_water_envmap_reflectivity
+    type: u4
+    if: version >= 35
+  - id: alpha_tile_minimap_color
+    type: water_color
+    if: version >= 38
   - id: players_chunk
     type: players_chunk
   - id: forces_chunk
@@ -137,24 +176,24 @@ types:
         type: u4
   unknown_v0_to_v3:
     seq:
-      - id: unknown_v0_int1
-        type: u4
-      - id: unknown_v0_int2
-        type: u4
+      - id: unknown_v0_byte1
+        type: u1
+      - id: unknown_v0_float1
+        type: f4
   unknown_v4_to_v8:
     seq:
-      - id: unknown_v4_int1
-        type: u4
-      - id: unknown_v4_int2
-        type: u4
-      - id: unknown_v4_int3
-        type: u4
       - id: unknown_v4_float1
         type: f4
+      - id: unknown_v4_byte1
+        type: u1
       - id: unknown_v4_float2
         type: f4
       - id: unknown_v4_float3
         type: f4
+      - id: unknown_v4_float4
+        type: f4
+      - id: unknown_v4_int1
+        type: u4
   camera_bounds:
     seq:
       - id: camera_bound_bottom_left
@@ -211,30 +250,49 @@ types:
       - id: use_custom_abilities
         type: b1
 
-      - id: custom_water_tint_color
+      - id: override_hd_water_color
         type: b1
-      - id: flag17
+      - id: override_minimum_zoom_level
         type: b1
-      - id: flag18
+      - id: override_maximum_zoom_level
         type: b1
-      - id: flag19
+      - id: override_default_zoom_level
         type: b1
-      - id: flag20
+      - id: disable_deny_icon
         type: b1
       - id: use_custom_ability_skin
         type: b1
-      - id: use_accurate_probabilities_for_calculation
+      - id: use_accurate_probabilities_for_calculation 
+        type: b1
+      - id: custom_water_tinting
         type: b1
 
-      - id: rest
+      - id: rest2
         type: b1
-        repeat: expr
-        repeat-expr: 8
+      - id: rest3
+        type: b1
+      - id: rest4
+        type: b1
+      - id: rest5
+        type: b1
+      - id: rest6
+        type: b1
+      - id: rest7
+        type: b1
+      - id: dynamic_minimap
+        type: b1
+      - id: alpha_tile_default_minimap_color
+        type: b1
   loading_screen:
     seq:
       - id: loading_screen_index
         type: s4
         if: _root.version >= 17
+        
+      - id: unknown_f39_loading_screen
+        type: u4
+        if: _root.version >= 39 # we don't have earlier refs than v39
+        
       - id: custom_loading_screen_path
         type: w3str
         if: _root.version >= 10 and _root.version != 18 and _root.version != 19
@@ -269,25 +327,43 @@ types:
         type: f4
       - id: fog_density
         type: f4
-      - id: fog_color_red
+      - id: fog_color_blue
         type: u1
       - id: fog_color_green
         type: u1
-      - id: fog_color_blue
+      - id: fog_color_red
         type: u1
       - id: fog_color_alpha
         type: u1
+      - id: fog_height_start
+        type: f4
+        if: _root.version >= 39 # we don't have earlier refs than v39
+      - id: fog_height_end
+        type: f4
+        if: _root.version >= 39 # we don't have earlier refs than v39
+      - id: fog_linear_start
+        type: f4
+        if: _root.version >= 39 # we don't have earlier refs than v39
+      - id: fog_linear_end
+        type: f4
+        if: _root.version >= 39 # we don't have earlier refs than v39
+      - id: fog_max_opacity
+        type: f4
+        if: _root.version >= 39 # we don't have earlier refs than v39
+      - id: draw_fog_over_sky
+        type: u4
+        if: _root.version >= 39 # we don't have earlier refs than v39
   water_color:
     seq:
-      - id: red
-        type: u1
-        doc: red value 0-255
-      - id: green
-        type: u1
-        doc: green value 0-255
       - id: blue
         type: u1
         doc: blue value 0-255
+      - id: green
+        type: u1
+        doc: green value 0-255
+      - id: red
+        type: u1
+        doc: red value 0-255
       - id: alpha
         type: u1
         doc: alpha value 0-255
@@ -296,10 +372,12 @@ types:
       - id: rest
         type: b1
         repeat: expr
-        repeat-expr: 6
-      - id: sd
+        repeat-expr: 5
+      - id: de
         type: b1
       - id: hd
+        type: b1
+      - id: sd
         type: b1
   players_chunk:
     seq:
@@ -319,6 +397,9 @@ types:
       - id: race
         type: u4
         enum: player_race
+      - id: hud
+        type: u4
+        enum: player_hud
       - id: fixed_position
         type: u4
       - id: name
@@ -522,12 +603,16 @@ enums:
     0: linear
     1: exp
     2: exp2
+    3: height
+    4: new_exp
+    5: new_exp2
   script_language:
     0: jass
     1: lua
   game_data_version:
     0: roc
     1: tft
+    2: fk
   player_controller:
     0: none
     1: human
@@ -540,6 +625,13 @@ enums:
     2: orc
     3: undead
     4: night_elf
+  player_hud:
+    64: selected_race
+    1: human
+    2: orc
+    8: undead
+    4: night_elf
+    128: forsaken
   random_unit_table_column_type:
     0: unit_table
     1: building_table
