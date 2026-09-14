@@ -6,6 +6,7 @@ meta:
     - w3id
     - w3str
     - w3char
+    - w3color
 seq:
   - id: version
     type: u4
@@ -83,7 +84,7 @@ seq:
     type: w3char
     if: version >= 23
   - id: water_color
-    type: water_color
+    type: w3color
     if: version >= 25
   - id: script_language
     type: u4
@@ -128,13 +129,13 @@ seq:
     type: u4
     if: version >= 34
   - id: hd_water_color
-    type: water_color
+    type: w3color
     if: version >= 34
   - id: hd_water_envmap_reflectivity
     type: u4
     if: version >= 35
   - id: alpha_tile_minimap_color
-    type: water_color
+    type: w3color
     if: version >= 38
   - id: players_chunk
     type: players_chunk
@@ -327,14 +328,8 @@ types:
         type: f4
       - id: fog_density
         type: f4
-      - id: fog_color_blue
-        type: u1
-      - id: fog_color_green
-        type: u1
-      - id: fog_color_red
-        type: u1
-      - id: fog_color_alpha
-        type: u1
+      - id: fog_color
+        type: w3color
       - id: fog_height_start
         type: f4
         if: _root.version >= 39 # we don't have earlier refs than v39
@@ -353,20 +348,6 @@ types:
       - id: draw_fog_over_sky
         type: u4
         if: _root.version >= 39 # we don't have earlier refs than v39
-  water_color:
-    seq:
-      - id: blue
-        type: u1
-        doc: blue value 0-255
-      - id: green
-        type: u1
-        doc: green value 0-255
-      - id: red
-        type: u1
-        doc: red value 0-255
-      - id: alpha
-        type: u1
-        doc: alpha value 0-255
   graphics_modes:
     seq:
       - id: rest

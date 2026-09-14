@@ -4,6 +4,9 @@ meta:
   endian: le
   imports:
     - w3str
+params:
+  - id: is_1_32_plus
+    type: u1
 seq:
   - id: version
     type: u4
@@ -34,7 +37,28 @@ types:
         type: f4
       - id: far_clipping
         type: f4
-      - id: unknown
+      - id: near_clipping
         type: f4
+      - id: local_pitch
+        type: f4
+        if: _root.is_1_32_plus != 0
+      - id: local_yaw
+        type: f4
+        if: _root.is_1_32_plus != 0
+      - id: local_roll
+        type: f4
+        if: _root.is_1_32_plus != 0
+      - id: dof_distance
+        type: f4
+        if: _root.version >= 3
+      - id: dof_scale
+        type: f4
+        if: _root.version >= 3
+      - id: pos_absolute_z
+        type: f4
+        if: _root.version >= 3
       - id: name
         type: w3str
+      - id: free_camera
+        type: u4
+        if: _root.version >= 3
