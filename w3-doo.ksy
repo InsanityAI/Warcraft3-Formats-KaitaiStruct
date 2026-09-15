@@ -4,6 +4,7 @@ meta:
   endian: le
   imports:
     - w3id
+    - w3color
 params:
   - id: use_skin
     type: u1
@@ -56,7 +57,7 @@ types:
         type: u4
         if: _root.version >= 13
       - id: flags
-        type: u1
+        type: flags
       - id: life
         type: u1
       - id: random_item_set_ptr
@@ -89,6 +90,20 @@ types:
         repeat: expr
         repeat-expr: num_lights
         if: _root.version >= 13
+  flags:
+    seq:
+      - id: rest
+        type: b1
+        repeat: expr
+        repeat-expr: 4
+      - id: use_model_axes
+        type: b1
+      - id: fixed_z
+        type: b1
+      - id: not_used_in_script
+        type: b1
+      - id: in_unplayable_area
+        type: b1
   item_set:
     seq:
       - id: num_item
@@ -109,14 +124,8 @@ types:
         type: u4
       - id: is_shadow_casting
         type: u4
-      - id: color_blue
-        type: u1
-      - id: color_green
-        type: u1
-      - id: color_red
-        type: u1
-      - id: color_alpha
-        type: u1
+      - id: color
+        type: w3color
       - id: intensity
         type: f4
       - id: shadow_casting_start
