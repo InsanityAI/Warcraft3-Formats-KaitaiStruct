@@ -2,6 +2,7 @@ meta:
   id: w3_doo
   file-extension: doo
   endian: le
+  bit-endian: le
   imports:
     - w3id
     - w3color
@@ -92,18 +93,16 @@ types:
         if: _root.version >= 13
   flags:
     seq:
-      - id: rest
-        type: b1
-        repeat: expr
-        repeat-expr: 4
-      - id: use_model_axes
-        type: b1
-      - id: fixed_z
+      - id: in_unplayable_area
         type: b1
       - id: not_used_in_script
         type: b1
-      - id: in_unplayable_area
+      - id: fixed_z
         type: b1
+      - id: use_model_axes
+        type: b1
+      - id: rest
+        type: b4
   item_set:
     seq:
       - id: num_item

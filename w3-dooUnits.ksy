@@ -2,6 +2,7 @@ meta:
   id: w3_doo_units
   file-extension: doo
   endian: le
+  bit-endian: le
   imports:
     - w3id
     - w3color
@@ -48,8 +49,8 @@ types:
       - id: group_id
         type: u4
         if: _root.use_skin != 0
-      - id: flags # todo: map flags
-        type: u1
+      - id: flags
+        type: flags
         if: _root.version >= 6
       - id: owner_index
         type: u2
@@ -123,6 +124,18 @@ types:
         repeat: expr
         repeat-expr: num_lights
         if: _root.version >= 13
+  flags:
+    seq:
+      - id: in_unplayable_area
+        type: b1
+      - id: not_used_in_script
+        type: b1
+      - id: fixed_z
+        type: b1
+      - id: use_model_axes
+        type: b1
+      - id: rest
+        type: b4
   inventory_item:
     seq:
       - id: slot
@@ -156,12 +169,8 @@ types:
             2: random_set
   random_building_item:
     seq:
-      - id: level # TODO: level is 3 bytes long, figure out to merge this
-        type: u1
-      - id: unknown_1
-        type: u1
-      - id: unknown_2
-        type: u1
+      - id: level
+        type: b24
       - id: item_class
         type: u1
   w3i_group:

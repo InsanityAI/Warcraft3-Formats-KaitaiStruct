@@ -2,6 +2,7 @@ meta:
   id: w3_w3i
   file-extension: w3i
   endian: le
+  bit-endian: le
   imports:
     - w3id
     - w3str
@@ -92,7 +93,6 @@ seq:
     if: version >= 28
   - id: supported_graphics_modes
     type: graphics_modes
-    size: 4
     if: version >= 29
   - id: game_data_version
     type: u4
@@ -217,73 +217,60 @@ types:
         type: s4
   flags:
     seq:
-      - id: use_custom_techs
-        type: b1
-      - id: use_custom_teams
-        type: b1
-      - id: fixed_player_parameters_for_custom_teams
-        type: b1
-      - id: unexplored_areas_partially_visible
-        type: b1
-      - id: non_default_tileset_map_size_large_never_been_reduced_to_medium
-        type: b1
-      - id: melee
+      - id: hide_minimap_on_preview_screens
         type: b1
       - id: change_ally_priorities
         type: b1
-      - id: hide_minimap_on_preview_screens
+      - id: melee
         type: b1
-
-      - id: use_item_classification_system
+      - id: non_default_tileset_map_size_large_never_been_reduced_to_medium
         type: b1
-      - id: tft_required
+      - id: unexplored_areas_partially_visible
         type: b1
-      - id: use_terrain_fog
+      - id: fixed_player_parameters_for_custom_teams
         type: b1
-      - id: show_water_waves_on_rolling_shores
+      - id: use_custom_teams
         type: b1
-      - id: show_water_waves_on_cliff_shores
-        type: b1
-      - id: map_properties_menu_opened_at_least_once
-        type: b1
-      - id: use_custom_upgrades
+      - id: use_custom_techs
         type: b1
       - id: use_custom_abilities
         type: b1
-
-      - id: override_hd_water_color
+      - id: use_custom_upgrades
         type: b1
-      - id: override_minimum_zoom_level
+      - id: map_properties_menu_opened_at_least_once
         type: b1
-      - id: override_maximum_zoom_level
+      - id: show_water_waves_on_cliff_shores
         type: b1
-      - id: override_default_zoom_level
+      - id: show_water_waves_on_rolling_shores
         type: b1
-      - id: disable_deny_icon
+      - id: use_terrain_fog
         type: b1
-      - id: use_custom_ability_skin
+      - id: tft_required
         type: b1
-      - id: use_accurate_probabilities_for_calculation 
+      - id: use_item_classification_system
         type: b1
       - id: custom_water_tinting
         type: b1
-
-      - id: rest2
+      - id: use_accurate_probabilities_for_calculation 
         type: b1
-      - id: rest3
+      - id: use_custom_ability_skin
         type: b1
-      - id: rest4
+      - id: disable_deny_icon
         type: b1
-      - id: rest5
+      - id: override_default_zoom_level
         type: b1
-      - id: rest6
+      - id: override_maximum_zoom_level
         type: b1
-      - id: rest7
+      - id: override_minimum_zoom_level
         type: b1
-      - id: dynamic_minimap
+      - id: override_hd_water_color
         type: b1
       - id: alpha_tile_default_minimap_color
         type: b1
+      - id: dynamic_minimap
+        type: b1
+      - id: rest
+        type: b6
   loading_screen:
     seq:
       - id: loading_screen_index
@@ -350,16 +337,14 @@ types:
         if: _root.version >= 39 # we don't have earlier refs than v39
   graphics_modes:
     seq:
-      - id: rest
-        type: b1
-        repeat: expr
-        repeat-expr: 5
-      - id: de
+      - id: sd
         type: b1
       - id: hd
         type: b1
-      - id: sd
+      - id: de
         type: b1
+      - id: rest
+        type: b29
   players_chunk:
     seq:
       - id: num_player
@@ -417,31 +402,18 @@ types:
         type: w3str
   force_flags:
     seq:
-      - id: bits
-        type: force_flags_bits
-        size: 4
-  force_flags_bits:
-    seq:
-      - id: flag7
-        type: b1
-      - id: flag6
-        type: b1
-      - id: flag5
-        type: b1
-      - id: share_advanced_unit_control
-        type: b1
-      - id: share_unit_control
-        type: b1
-      - id: share_vision
+      - id: allied
         type: b1
       - id: allied_victory
         type: b1
-      - id: allied
+      - id: share_vision
+        type: b1
+      - id: share_unit_control
+        type: b1
+      - id: share_advanced_unit_control
         type: b1
       - id: rest
-        type: u1
-        repeat: expr
-        repeat-expr: 3
+        type: b27
   player_bitmap:
     seq:
       - id: bits
