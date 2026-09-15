@@ -153,20 +153,26 @@ types:
         type: u4
   random:
     seq:
-      # if subversion == 7
-      #   random_set
-      # else
-
-
+      - id: old_random_building_item
+        type: random_set
+        if: _root.sub_version == 7
       - id: random_type
         type: u4
-      - id: value
+        if: _root.sub_version >= 8
+      - id: new_random_value
         type:
           switch-on: random_type
           cases:
             0: random_building_item
             1: w3i_group
             2: random_set
+        if: _root.sub_version >= 8
+    instances:
+      value:
+        value: >
+          _root.sub_version == 7 ? 
+          old_random_building_item : 
+          new_random_value
   random_building_item:
     seq:
       - id: level
