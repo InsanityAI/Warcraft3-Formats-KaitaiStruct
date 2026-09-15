@@ -44,6 +44,8 @@ types:
         type: f4
       - id: skin_id
         type: w3id
+      - id: group_id
+        type: u4
         if: _root.use_skin != 0
       - id: flags # todo: map flags
         type: u1
@@ -106,6 +108,13 @@ types:
       - id: unit_id
         type: u4
         if: _root.sub_version >= 4
+        
+      - id: unknown12_1
+        type: u8
+        if: _root.version >= 13
+      - id: unknown12_2
+        type: u4
+        if: _root.version >= 13
   inventory_item:
     seq:
       - id: slot
