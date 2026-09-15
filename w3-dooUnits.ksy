@@ -4,6 +4,7 @@ meta:
   endian: le
   imports:
     - w3id
+    - w3color
 params:
   - id: use_skin
     type: u1
@@ -108,12 +109,19 @@ types:
       - id: unit_id
         type: u4
         if: _root.sub_version >= 4
-        
-      - id: unknown12_1
-        type: u8
+      - id: roll
+        type: f4
         if: _root.version >= 13
-      - id: unknown12_2
+      - id: pitch
+        type: f4
+        if: _root.version >= 13
+      - id: num_lights
         type: u4
+        if: _root.version >= 13
+      - id: light
+        type: light
+        repeat: expr
+        repeat-expr: num_lights
         if: _root.version >= 13
   inventory_item:
     seq:
@@ -176,6 +184,26 @@ types:
         type: w3id
       - id: chance
         type: u4
+  light:
+    seq:
+      - id: index
+        type: u4
+      - id: is_shadow_casting
+        type: u4
+      - id: color
+        type: w3color
+      - id: intensity
+        type: f4
+      - id: shadow_casting_start
+        type: f4
+      - id: shadow_casting_end
+        type: f4
+      - id: quadratic_falloff
+        type: f4
+      - id: linear_falloff
+        type: f4
+      - id: damping
+        type: f4
 enums:
   autocast_active:
     0: inactive
