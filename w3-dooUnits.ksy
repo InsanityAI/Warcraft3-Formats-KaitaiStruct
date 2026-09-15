@@ -14,6 +14,7 @@ seq:
     type: u4
   - id: sub_version
     type: u4
+    if: _root.version >= 5
   - id: num_unit
     type: u4
   - id: unit
@@ -44,42 +45,44 @@ types:
       - id: skin_id
         type: w3id
         if: _root.use_skin != 0
-      - id: flags
+      - id: flags # todo: map flags
         type: u1
+        if: _root.version >= 6
       - id: owner_index
+        type: u2
+      - id: is_uprooted
         type: u4
-      - id: unknown_1
-        type: u1
-      - id: unknown_2
-        type: u1
       - id: life
         type: u4
       - id: mana
         type: u4
       - id: dropped_item_set_ptr
         type: u4
-        if: _root.sub_version == 11
+        if: _root.sub_version >= 11
       - id: num_dropped_item_set
         type: u4
       - id: dropped_item_set
-        type: item_set
+        type: random_set
         repeat: expr
         repeat-expr: num_dropped_item_set
       - id: resources_amount
         type: u4
+        if: _root.sub_version >= 2
       - id: target_aquisition
         type: f4
+        if: _root.sub_version >= 3
       - id: hero_level
         type: u4
+        if: _root.sub_version >= 5
       - id: hero_strength
         type: u4
-        if: _root.sub_version == 11
+        if: _root.sub_version >= 10
       - id: hero_agility
         type: u4
-        if: _root.sub_version == 11
+        if: _root.sub_version >= 10
       - id: hero_intelligence
         type: u4
-        if: _root.sub_version == 11
+        if: _root.sub_version >= 10
       - id: num_inventory_item
         type: u4
       - id: inventory_item
@@ -96,24 +99,13 @@ types:
         type: random
       - id: color
         type: u4
+        if: _root.sub_version >= 9
       - id: waygate
         type: u4
+        if: _root.sub_version >= 9
       - id: unit_id
         type: u4
-  item_set:
-    seq:
-      - id: num_item
-        type: u4
-      - id: item
-        type: item
-        repeat: expr
-        repeat-expr: num_item
-  item:
-    seq:
-      - id: id
-        type: w3id
-      - id: chance
-        type: u4
+        if: _root.sub_version >= 4
   inventory_item:
     seq:
       - id: slot
@@ -131,20 +123,23 @@ types:
         type: u4
   random:
     seq:
+      # if subversion == 7
+      #   random_set
+      # else
+
+
       - id: random_type
-        type: u2
-      - id: random_type_rest
-        type: u2
+        type: u4
       - id: value
         type:
           switch-on: random_type
           cases:
             0: random_building_item
             1: w3i_group
-            2: custom_group
+            2: random_set
   random_building_item:
     seq:
-      - id: level
+      - id: level # TODO: level is 3 bytes long, figure out to merge this
         type: u1
       - id: unknown_1
         type: u1
@@ -158,15 +153,15 @@ types:
         type: u4
       - id: column_index
         type: u4
-  custom_group:
+  random_set:
     seq:
-      - id: num_group_unit
+      - id: num_objects
         type: u4
-      - id: group_unit
-        type: group_unit
+      - id: random_objects
+        type: random_object
         repeat: expr
-        repeat-expr: num_group_unit
-  group_unit:
+        repeat-expr: num_objects
+  random_object:
     seq:
       - id: id
         type: w3id

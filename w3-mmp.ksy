@@ -2,6 +2,8 @@ meta:
   id: w3_mmp
   file-extension: mmp
   endian: le
+    imports:
+    - w3color
 seq:
   - id: version
     type: u4
@@ -26,17 +28,7 @@ types:
       - id: y
         type: u4
       - id: color
-        type: color
-  color:
-    seq:
-      - id: blue
-        type: u1
-      - id: green
-        type: u1
-      - id: red
-        type: u1
-      - id: alpha
-        type: u1
+        type: w3color
 enums:
   icon_type:
     0: gold_mine

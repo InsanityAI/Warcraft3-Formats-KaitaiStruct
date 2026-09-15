@@ -4,6 +4,7 @@ meta:
   endian: le
   imports:
     - w3str
+    - w3color
 seq:
   - id: version
     type: u4
@@ -40,14 +41,8 @@ seq:
     type: f4
   - id: fog_density
     type: f4
-  - id: fog_red
-    type: u1
-  - id: fog_green
-    type: u1
-  - id: fog_blue
-    type: u1
-  - id: fog_alpha
-    type: u1
+  - id: color
+    type: w3color
   - id: cursor_race_index
     type: u4
   - id: num_map

@@ -5,6 +5,7 @@ meta:
   imports:
     - w3str
     - w3id
+    - w3color
 seq:
   - id: map_path
     type: w3str
@@ -113,14 +114,8 @@ types:
       type: f4
     - id: less_int5
       type: u4
-    - id: red
-      type: u1
-    - id: green
-      type: u1
-    - id: blue
-      type: u1
-    - id: alpha
-      type: u1
+      id: color
+      type: w3color
     - id: replace_float0
       type: f4
     - id: replace_float1
