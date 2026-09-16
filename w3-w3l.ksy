@@ -18,13 +18,7 @@ seq:
   - id: use_custom_unit_light
     type: u4
   - id: use_custom_terrain_light
-    type: u1
-  - id: unknown2
-    type: u1
-  - id: unknown3
-    type: u1
-  - id: unknown4
-    type: u1
+    type: u4
   - id: use_custom_both_lights 
   # this is only true if you initially went to Both and checked
   # "Enable Custom Light" options, if you did both unit and terrain individually, it's off
