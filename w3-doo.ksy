@@ -72,6 +72,9 @@ types:
         repeat: expr
         repeat-expr: num_item_set
       - id: unknown
+        # I suspect this field corresponds to player color in Units.doo, but
+        # there's no visible change when manually setting this value to
+        # something different than the default -1
         type: u4
         if: _root.version >= 13
       - id: editor_id
