@@ -278,7 +278,7 @@ types:
         if: _root.version >= 17
       - id: race_crest
         type: player_hud
-        if: _root.version >= 39 # we don't have earlier refs than v39
+        if: _root.version >= 37
       - id: custom_loading_screen_path
         type: w3str
         if: _root.version >= 10 and _root.version != 18 and _root.version != 19
