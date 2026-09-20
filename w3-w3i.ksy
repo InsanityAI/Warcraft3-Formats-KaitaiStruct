@@ -276,11 +276,9 @@ types:
       - id: loading_screen_index
         type: s4
         if: _root.version >= 17
-        
-      - id: unknown_f39_loading_screen
-        type: u4
+      - id: race_crest
+        type: player_hud
         if: _root.version >= 39 # we don't have earlier refs than v39
-        
       - id: custom_loading_screen_path
         type: w3str
         if: _root.version >= 10 and _root.version != 18 and _root.version != 19
