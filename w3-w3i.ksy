@@ -317,22 +317,22 @@ types:
         type: w3color
       - id: fog_height_start
         type: f4
-        if: _root.version >= 39 # we don't have earlier refs than v39
+        if: _root.version >= 36
       - id: fog_height_end
         type: f4
-        if: _root.version >= 39 # we don't have earlier refs than v39
+        if: _root.version >= 36
       - id: fog_linear_start
         type: f4
-        if: _root.version >= 39 # we don't have earlier refs than v39
+        if: _root.version >= 36
       - id: fog_linear_end
         type: f4
-        if: _root.version >= 39 # we don't have earlier refs than v39
+        if: _root.version >= 36
       - id: fog_max_opacity
         type: f4
-        if: _root.version >= 39 # we don't have earlier refs than v39
+        if: _root.version >= 39
       - id: draw_fog_over_sky
         type: u4
-        if: _root.version >= 39 # we don't have earlier refs than v39
+        if: _root.version >= 39
   graphics_modes:
     seq:
       - id: sd
@@ -364,6 +364,7 @@ types:
       - id: hud
         type: u4
         enum: player_hud
+        if: _root.version >= 37
       - id: fixed_position
         type: u4
       - id: name
