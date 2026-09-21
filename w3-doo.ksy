@@ -16,6 +16,7 @@ seq:
     type: u4
   - id: sub_version
     type: u4
+    if: version >= 5
   - id: num_doodad
     type: u4
   - id: doodad
@@ -24,12 +25,15 @@ seq:
     repeat-expr: num_doodad
   - id: special_doodad_version
     type: u4
+    if: version >= 3
   - id: num_special_doodad
     type: u4
+    if: version >= 3
   - id: special_doodad
     type: special_doodad
     repeat: expr
     repeat-expr: num_special_doodad
+    if: version >= 3
 types:
   doodad:
     seq:
@@ -45,6 +49,7 @@ types:
         type: f4
       - id: angle
         type: f4
+        doc: in radians
       - id: scale_x
         type: f4
       - id: scale_y
@@ -55,28 +60,29 @@ types:
         type: w3id
         if: _root.use_skin != 0
       - id: group_id
-        type: u4
+        type: s4
         if: _root.version >= 13
       - id: flags
         type: flags
+        if: _root.version >= 6
       - id: life
         type: u1
       - id: random_item_set_ptr
-        type: u4
-        if: _root.version >= 8
+        type: s4
+        if: _root.version >= 7
       - id: num_item_set
         type: u4
-        if: _root.version >= 8
+        if: _root.version >= 7
       - id: item_set
         type: item_set
         repeat: expr
         repeat-expr: num_item_set
       - id: color
-        type: u4
+        type: s4
         if: _root.version >= 13
       - id: editor_id
         type: u4
-        if: _root.version >= 8
+        if: _root.version >= 4
       - id: roll
         type: f4
         if: _root.version >= 13
