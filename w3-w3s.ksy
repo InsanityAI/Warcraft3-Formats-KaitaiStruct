@@ -2,8 +2,8 @@ meta:
   id: w3_w3s
   file-extension: w3s
   endian: le
-  imports:
-    - w3str
+  bit-endian: le
+  encoding: utf-8
 seq:
   - id: version
     type: u4
@@ -17,105 +17,135 @@ types:
   sound:
     seq:
       - id: name
-        type: w3str
+        type: strz
+        doc: Variable name for scripts, Always prefixed with 'gg_snd_'
       - id: path
-        type: w3str
+        type: strz 
+        doc: Filepath of the sound
       - id: eax
-        type: w3str
+        type: strz
+        doc: Effect dropdown value, must be either; DefaultEAXON, CombatSoundsEAX, KotoDrumsEAX, SpellsEAX, MissilesEAX, HeroAcksEAX, DoodadsEAX
       - id: flags
         size: 4
         type: flags
       - id: fade_in_rate
         type: u4
+        doc: Default value 0
       - id: fade_out_rate
         type: u4
+        doc: Default value 0
       - id: volume
-        type: s4
+        type: u4
+        doc: Default value 0
       - id: pitch
         type: f4
+        doc: Default value 1.0
       - id: pitch_variance
         type: f4
+        doc: Default value UINTMAX as float
       - id: priority
-        type: s4
+        type: u4
+        doc: Default value 10
       - id: channel
         type: s4
+        doc: Default value -1
         enum: channel
       - id: min_distance
         type: f4
+        doc: Default value UINTMAX as float
       - id: max_distance
         type: f4
+        doc: Default value UINTMAX as float
       - id: cutoff_distance
         type: f4
+        doc: Default value 10000.0
       - id: cone_inside
         type: f4
+        doc: Default value UINTMAX as float
       - id: cone_outside
         type: f4
+        doc: Default value UINTMAX as float
       - id: cone_outside_volume
         type: s4
+        doc: Default value -1
       - id: cone_orientation_x
         type: f4
+        doc: Default value UINTMAX as float
       - id: cone_orientation_y
         type: f4
+        doc: Default value UINTMAX as float
       - id: cone_orientation_z
         type: f4
+        doc: Default value UINTMAX as float
       - id: var_name
-        type: w3str
+        type: strz
+        doc: Same as name
         if: _root.version >= 2
       - id: internal_sound_name
-        type: w3str
+        type: strz
+        doc: Label SLK
         if: _root. version >= 2
       - id: sound_path
-        type: w3str
+        type: strz
+        doc: Same as path
         if:  _root.version >= 2
-      - id: unknown_9
+      - id: dialogue_id
         type: s4
+        doc: default value -1
         if:  _root.version >= 2
-      - id: unknown_10
-        type: w3str
+      - id: production_comment
+        type: strz
+        doc: always empty
         if:  _root.version >= 2
-      - id: unknown_11
+      - id: speaker_name_id
         type: s4
+        doc: default value -1
         if:  _root.version >= 2
-      - id: unknown_12
-        type: w3str
+      - id: listener_name
+        type: strz
+        doc: always empty
         if:  _root.version >= 2
-      - id: unknown_13
-        type: s4
+      - id: asset_flags
+        type: u4
+        doc: Unknown flags - unused, default value 0
         if:  _root.version >= 2
-      - id: unknown_14
-        type: w3str
+      - id: speaker_unit_id
+        type: strz
+        doc: always empty, according to conversations.json, it should be a FourCC code, but it acts as a string
         if:  _root.version >= 2
-      - id: unknown_15
-        type: w3str
+      - id: animation_label
+        type: strz
+        doc: always empty
         if:  _root.version >= 2
-      - id: unknown_16
-        type: w3str
+      - id: animation_group
+        type: strz
+        doc: always empty
         if:  _root.version >= 2
-      - id: unknown_17
-        type: w3str
+      - id: animation_set_filepath
+        type: strz
+        doc: always empty
         if:  _root.version >= 2
-      - id: unknown_18
-        type: s4
+      - id: animation_set_filepath_is_map_relative
+        type: u4
+        doc: default value 1
         if:  _root.version >= 3
   flags:
     seq:
-      - id: rest
-        type: b1
-        repeat: expr
-        repeat-expr: 3
-      - id: is_imported
-        type: b1
-      - id: is_music
-        type: b1
-      - id: stop_when_out_of_range
+      - id: is_looping
         type: b1
       - id: is_3d
         type: b1
-      - id: is_looping
+      - id: stop_when_out_of_range
         type: b1
+      - id: is_music
+        type: b1
+      - id: is_imported
+        type: b1
+      - id: rest
+        type: b3
 enums:
   channel:
-    -1: default
+    -1: default # general
     0: general
     1: unit_selection
     2: unit_acknowledgement
@@ -131,3 +161,11 @@ enums:
     12: building
     13: birth
     14: fire
+    15: legacy_midi
+    16: cinematic_general
+    17: cinematic_ambient
+    18: cinematic_music
+    19: cinematic_dialogue
+    20: cinematic_sfx1
+    21: cinematic_sfx2
+    22: cinematic_sfx3
