@@ -2,9 +2,10 @@ meta:
   id: w3_w3r
   file-extension: w3r
   endian: le
+  bit-endian: le
+  encoding: utf-8
   imports:
     - w3id
-    - w3str
     - w3color
 seq:
   - id: version
@@ -26,17 +27,18 @@ types:
             1: rect_int
             _: rect_float
       - id: name
-        type: w3str
+        type: strz
       - id: id
         type: u4
       - id: weather_id
         type: w3id
         if: _root.version >= 3
       - id: ambient_sound
-        type: w3str
+        type: strz
         if: _root.version >= 4
       - id: color
         type: w3color
+        if: _root.version >= 5
       - id: block_camera
         type: u4
         if: _root.version >= 7
