@@ -46,9 +46,9 @@ types:
         type: f4
       - id: skin_id
         type: w3id
+        if: _root.use_skin != 0
       - id: group_id
         type: u4
-        if: _root.use_skin != 0
       - id: flags
         type: flags
         if: _root.version >= 6
@@ -128,8 +128,10 @@ types:
     seq:
       - id: in_unplayable_area
         type: b1
+        doc: units cannot be preplaced in border tiles, always 0
       - id: not_used_in_script
         type: b1
+        doc: always true, this is primarily useful for game when reading .doo, not Units.doo, perhaps it should be called "ignore_doodad_during_doodad_spawning"
       - id: fixed_z
         type: b1
       - id: use_model_axes
