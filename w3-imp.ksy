@@ -2,8 +2,8 @@ meta:
   id: w3_imp
   file-extension: imp
   endian: le
-  imports:
-    - w3str
+  bit-endian: le
+  encoding: utf-8
 seq:
   - id: version
     type: u4
@@ -19,4 +19,4 @@ types:
       - id: flags
         type: u1
       - id: path
-        type: w3str
+        type: strz

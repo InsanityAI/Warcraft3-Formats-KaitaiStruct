@@ -1,9 +1,10 @@
 meta:
   id: w3_obj_mod_file
   endian: le
+  bit-endian: le
+  encoding: utf-8
   imports:
     - w3id
-    - w3str
 params:
   - id: use_extended
     type: u1
@@ -74,9 +75,10 @@ types:
             value_types::int: u4
             value_types::real: f4
             value_types::unreal: f4
-            _: w3str
+            _: strz
       - id: end_token
         type: w3id
+        if: _root.version >= 1
 enums:
   value_types:
     0: int

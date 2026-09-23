@@ -2,8 +2,8 @@ meta:
   id: w3_w3c
   file-extension: w3c
   endian: le
-  imports:
-    - w3str
+  bit-endian: le
+  encoding: utf-8
 params:
   - id: is_1_32_plus
     type: u1
@@ -58,7 +58,7 @@ types:
         type: f4
         if: _root.version >= 3
       - id: name
-        type: w3str
+        type: strz
       - id: free_camera
         type: u4
         if: _root.version >= 3

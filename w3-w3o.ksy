@@ -2,6 +2,7 @@ meta:
   id: w3_w3o
   file-extension: w3o
   endian: le
+  bit-endian: le
   imports:
     - w3-w3a
     - w3-w3b
