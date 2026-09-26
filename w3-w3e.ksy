@@ -6,91 +6,118 @@ meta:
   imports:
     - w3id
 seq:
-  - id: file_id
-    type: w3id
-  - id: version
-    type: u4
-  - id: tileset
+  - type: w3id
+    id: file_id
+
+  - type: u4
+    id: version
+
+  - if: _root.version >= 7
     type: u1
+    id: tileset
     enum: tileset
-    if: _root.version >= 7
-  - id: use_custom_tileset
+
+  - if: _root.version >= 7
     type: u4
-    if: _root.version >= 7
-  - id: num_tile_id
-    type: u4
-  - id: tile_id
-    type: w3id
+    id: use_custom_tileset
+
+  - type: u4
+    id: num_tile_id
+
+  - type: w3id
+    id: tile_id
     repeat: expr
     repeat-expr: num_tile_id
-  - id: num_cliff_tile_id
-    type: u4
-  - id: cliff_tile_id
-    type: w3id
+
+  - type: u4
+    id: num_cliff_tile_id
+
+  - type: w3id
+    id: cliff_tile_id
     repeat: expr
     repeat-expr: num_cliff_tile_id
-  - id: map_width
-    type: u4
-  - id: map_height
-    type: u4
-  - id: center_offset_x
+
+  - type: u4
+    id: map_width
+
+  - type: u4
+    id: map_height
+
+  - if: _root.version >= 10
     type: f4
-    if: _root.version >= 10
-  - id: center_offset_y
+    id: center_offset_x
+
+  - if: _root.version >= 10
     type: f4
-    if: _root.version >= 10
-  - id: tile_node_new
+    id: center_offset_y
+
+  - if: _root.version >= 11
     type: tile_node_new
+    id: tile_node_new
     repeat: expr
     repeat-expr: map_width * map_height
-    if: _root.version >= 11
-  - id: tile_node_old
+
+  - if: _root.version < 11
     type: tile_node_new
+    id: tile_node_old
     repeat: expr
     repeat-expr: map_width * map_height
-    if: _root.version < 11
+
 types:
   tile_node_old:
     seq:
-      - id: cliff_texture
-        type: 
+      - type:
           switch-on: _root.version
           cases:
             10: u1
             _: u4
-      - id: cliff_variation
-        type: 
+        id: cliff_texture
+
+      - type:
           switch-on: _root.version
           cases:
             10: u1
             _: u4
-      - id: x_raw
+        id: cliff_variation
+
+      - if: _root.version < 8
         type: f4
-        if: _root.version < 8
-      - id: y_raw
+        id: x_raw
+
+      - if: _root.version < 8
         type: f4
-        if: _root.version < 8
-      - id: ground_height_f
+        id: y_raw
+
+      - if: _root.version < 8
         type: f4
-        if: _root.version < 8
-      - id: ground_height_raw
+        id: ground_height_f
+
+      - if: _root.version >= 8
         type: s4
-        if: _root.version >= 8
-      - id: water_height_raw
+        id: ground_height_raw
+
+      - if: _root.version >= 8
         type: s2
-        if: _root.version >= 8
-      - id: cliff_level
-        type: u1
-      - id: ground_texture
-        type: u1
-      - id: ground_variation
-        type: u1
-      - id: flags
-        type: tile_flags
-      - id: water_height_f
-        type: f4
+        id: water_height_raw
+
+      - type: u1
+        id: cliff_level
+
+      - type: u1
+        id: ground_texture
+
+      - type: u1
+        id: ground_variation
+
+      - type: tile_flags
+        id: flags
+        size: '_root.version == 11 ? 1 : 4'
+
+      - type: f4
+        id: water_height_f
+
     instances:
-      x: 
+      x:
         value: 128 * (_index % _root.map_width) + _root.center_offset_x
       y:
         value: 128 * (_index / _root.map_width) + _root.center_offset_y
@@ -100,14 +127,16 @@ types:
         value: (water_height_raw - 8192 + cliff_level * 512) / 4
   tile_node_new:
     seq:
-      - id: ground_height_raw
-        type: u2
-      - id: water_height_raw
-        type: b14
-      - id: is_edge_boundary
-        type: b2
-      - id: ground_texture
-        type: 
+      - type: u2
+        id: ground_height_raw
+
+      - type: b14
+        id: water_height_raw
+
+      - type: b2
+        id: is_edge_boundary
+
+      - type:
           switch-on: _root.version
           cases:
             0: b4
@@ -123,17 +152,24 @@ types:
             10: b4
             11: b4
             _: b6
-      - id: flags
+        id: ground_texture
+
+      - if: _root.version >= 12
         type: tile_flags
-        if: _root.version >= 12
-      - id: ground_variation
-        type: b5
-      - id: cliff_variation
-        type: b3
-      - id: cliff_level
-        type: b4
-      - id: cliff_texture
-        type: b4
+        id: flags
+
+      - type: b5
+        id: ground_variation
+
+      - type: b3
+        id: cliff_variation
+
+      - type: b4
+        id: cliff_level
+
+      - type: b4
+        id: cliff_texture
+
     instances:
       ground_height:
         value: (ground_height_raw - 8192 + cliff_level * 512) / 4
@@ -141,44 +177,43 @@ types:
         value: (water_height_raw - 8192 + cliff_level * 512) / 4
   tile_flags:
     seq:
-      - id: ramp
-        type: b1
-      - id: blight
-        type: b1
-      - id: water
-        type: b1
-      - id: boundary_2
-        type: b1
-      - id: rest
+      - type: b1
+        id: ramp
+
+      - type: b1
+        id: blight
+
+      - type: b1
+        id: water
+
+      - type: b1
+        id: boundary_2
+
+      - if: _root.version >=12
         type: b6
-        if: _root.version >=12
-      - id: rest_old_b
-        type: b4
-        if: _root.version < 11
-      - id: rest_old_old
-        type: b24
-        if: _root.version < 10
+        id: rest
+
 enums:
   tileset:
-    0x41: ashenvale
-    0x42: barrens
-    0x43: felwood
-    0x44: dungeon
-    0x46: lordaeron_fall
-    0x47: underground
-    0x49: icecrown
-    0x4a: dalaran_ruins
-    0x4b: black_citadel
-    0x4c: lordaeron_summer
-    0x4e: northrend
-    0x4f: outland
-    0x50: cityscape_ruins
-    0x51: village_fall
-    0x52: lordaeron_capital_ruins
-    0x56: village
-    0x57: lordaeron_winter
-    0x58: dalaran
-    0x59: cityscape
-    0x5a: sunken_ruins
-    0x65: lordaeron_capital
-    0x75: undercity
+    0x41: ashenvale #A
+    0x42: barrens #B
+    0x43: felwood #C
+    0x44: dungeon #D
+    0x46: lordaeron_fall #F
+    0x47: underground #G
+    0x49: icecrown #I
+    0x4a: dalaran_ruins #J
+    0x4b: black_citadel #K
+    0x4c: lordaeron_summer #L
+    0x4e: northrend #N
+    0x4f: outland #O
+    0x50: cityscape_ruins #P
+    0x51: village_fall #Q
+    0x52: lordaeron_capital_ruins #R
+    0x56: village #V
+    0x57: lordaeron_winter #W
+    0x58: dalaran #X
+    0x59: cityscape #Y
+    0x5a: sunken_ruins #Z
+    0x65: lordaeron_capital #e
+    0x75: undercity #u

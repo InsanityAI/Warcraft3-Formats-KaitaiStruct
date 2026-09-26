@@ -6,79 +6,93 @@ meta:
   imports:
     - w3id
 params:
-  - id: use_extended
-    type: u1
+  - type: u1
+    id: use_extended
 seq:
-  - id: version
-    type: u4
-  - id: default_objects_chunk
-    type: objects_chunk
-  - id: custom_objects_chunk
-    type: objects_chunk
+  - type: u4
+    id: version
+
+  - type: objects_chunk
+    id: default_objects_chunk
+
+  - type: objects_chunk
+    id: custom_objects_chunk
 types:
   objects_chunk:
     seq:
-      - id: num_object
-        type: u4
-      - id: object
-        type: obj
+      - type: u4
+        id: num_object
+
+      - type: obj
+        id: object
         repeat: expr
         repeat-expr: num_object
   obj:
     seq:
-      - id: base_id
-        type: w3id
-      - id: new_id
-        type: w3id
-      - id: num_set
-        type: num_set
-      - id: set
-        type: set
+      - type: w3id
+        id: base_id
+
+      - type: w3id
+        id: new_id
+
+      - type: num_set
+        id: num_set
+
+      - type: set
+        id: set
         repeat: expr
-        repeat-expr: num_set.value
+        repeat-expr: num_set.count
   num_set:
     seq:
-      - id: num_set
+      - if: _root.version >= 3
         type: u4
-        if: _root.version >= 3
+        id: num_set
     instances:
-      value:
-        value: '_root.version >= 3 ? num_set : 1'
+      count:
+        value: "_root.version >= 3 ? num_set : 1"
   set:
     seq:
-      - id: set_flag
+      - if: _root.version >= 3
         type: u4
-        if: _root.version >= 3
-      - id: num_mod
-        type: u4
-      - id: mod
-        type: mod
+        id: set_flag
+
+      - type: u4
+        id: num_mod
+
+      - type: mod
+        id: mod
         repeat: expr
         repeat-expr: num_mod
   mod:
     seq:
-      - id: id
-        type: w3id
-      - id: value_type
-        type: u4
+      - type: w3id
+        id: id
+
+      - type: u4
+        id: value_type
         enum: value_types
-      - id: level_or_variation
+
+      - if: _root.use_extended != 0
         type: u4
-        if: _root.use_extended != 0
-      - id: data_pointer
+        id: level_or_variation
+
+      - if: _root.use_extended != 0
         type: u4
-        if: _root.use_extended != 0
-      - id: value
-        type:
+        id: data_pointer
+
+      - type:
           switch-on: value_type
           cases:
             value_types::int: u4
             value_types::real: f4
             value_types::unreal: f4
             _: strz
-      - id: end_token
+        id: value
+
+      - if: _root.version >= 1
         type: w3id
-        if: _root.version >= 1
+        id: end_token
+
 enums:
   value_types:
     0: int

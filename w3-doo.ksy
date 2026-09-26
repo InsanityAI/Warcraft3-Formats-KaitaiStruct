@@ -10,146 +10,194 @@ params:
   - id: use_skin
     type: u1
 seq:
-  - id: file_id
-    type: w3id
-  - id: version
+  - type: w3id
+    id: file_id
+
+  - type: u4
+    id: version
+
+  - if: version >= 5
     type: u4
-  - id: sub_version
-    type: u4
-    if: version >= 5
-  - id: num_doodad
-    type: u4
-  - id: doodad
-    type: doodad
+    id: sub_version
+    
+  - type: u4
+    id: num_doodad
+
+  - type: doodad
+    id: doodad
     repeat: expr
     repeat-expr: num_doodad
-  - id: special_doodad_version
+
+  - if: version >= 3
     type: u4
-    if: version >= 3
-  - id: num_special_doodad
+    id: special_doodad_version
+    
+  - if: version >= 3
     type: u4
-    if: version >= 3
-  - id: special_doodad
+    id: num_special_doodad
+    
+  - if: version >= 3
     type: special_doodad
+    id: special_doodad
     repeat: expr
     repeat-expr: num_special_doodad
-    if: version >= 3
+    
 types:
   doodad:
     seq:
-      - id: id
-        type: w3id
-      - id: variation
-        type: u4
-      - id: x
-        type: f4
-      - id: y
-        type: f4
-      - id: z
-        type: f4
-      - id: angle
-        type: f4
+      - type: w3id
+        id: id
+
+      - type: u4
+        id: variation
+
+      - type: f4
+        id: x
+
+      - type: f4
+        id: y
+
+      - type: f4
+        id: z
+
+      - type: f4
+        id: angle
         doc: in radians
-      - id: scale_x
-        type: f4
-      - id: scale_y
-        type: f4
-      - id: scale_z
-        type: f4
-      - id: skin_id
+
+      - type: f4
+        id: scale_x
+
+      - type: f4
+        id: scale_y
+
+      - type: f4
+        id: scale_z
+
+      - if: _root.use_skin != 0
         type: w3id
-        if: _root.use_skin != 0
-      - id: group_id
+        id: skin_id
+
+      - if: _root.version >= 13
         type: s4
-        if: _root.version >= 13
-      - id: flags
+        id: group_id
+
+      - if: _root.version >= 6
         type: flags
-        if: _root.version >= 6
-      - id: life
-        type: u1
-      - id: random_item_set_ptr
+        id: flags
+        size: 1
+
+      - type: u1
+        id: life
+
+      - if: _root.version >= 7
         type: s4
-        if: _root.version >= 7
-      - id: num_item_set
+        id: random_item_set_ptr
+
+      - if: _root.version >= 7
         type: u4
-        if: _root.version >= 7
-      - id: item_set
-        type: item_set
+        id: num_item_set
+
+      - type: item_set
+        id: item_set
         repeat: expr
         repeat-expr: num_item_set
-      - id: color
+
+      - if: _root.version >= 13
         type: s4
-        if: _root.version >= 13
-      - id: editor_id
+        id: color
+
+      - if: _root.version >= 4
         type: u4
-        if: _root.version >= 4
-      - id: roll
+        id: editor_id
+
+      - if: _root.version >= 13
         type: f4
-        if: _root.version >= 13
-      - id: pitch
+        id: roll
+
+      - if: _root.version >= 13
         type: f4
-        if: _root.version >= 13
-      - id: num_lights
+        id: pitch
+
+      - if: _root.version >= 13
         type: u4
-        if: _root.version >= 13
-      - id: light
+        id: num_lights
+
+      - if: _root.version >= 13
         type: light
+        id: light
         repeat: expr
         repeat-expr: num_lights
-        if: _root.version >= 13
+
   flags:
     seq:
-      - id: in_unplayable_area
-        type: b1
-      - id: not_used_in_script
-        type: b1
-      - id: fixed_z
-        type: b1
-      - id: use_model_axes
-        type: b1
-      - id: rest
-        type: b4
+      - type: b1
+        id: in_unplayable_area
+
+      - type: b1
+        id: not_used_in_script
+
+      - type: b1
+        id: fixed_z
+
+      - type: b1
+        id: use_model_axes
+
   item_set:
     seq:
-      - id: num_item
-        type: u4
-      - id: item
-        type: item
+      - type: u4
+        id: num_item
+
+      - type: item
+        id: item
         repeat: expr
         repeat-expr: num_item
   item:
     seq:
-      - id: id
-        type: w3id
-      - id: chance
-        type: u4
+      - type: w3id
+        id: id
+
+      - type: u4
+        id: chance
+
   light:
     seq:
-      - id: index
-        type: u4
-      - id: is_shadow_casting
-        type: u4
-      - id: color
-        type: w3color
-      - id: intensity
-        type: f4
-      - id: shadow_casting_start
-        type: f4
-      - id: shadow_casting_end
-        type: f4
-      - id: quadratic_falloff
-        type: f4
-      - id: linear_falloff
-        type: f4
-      - id: damping
-        type: f4
+      - type: u4
+        id: index
+
+      - type: u4
+        id: is_shadow_casting
+
+      - type: w3color
+        id: color
+
+      - type: f4
+        id: intensity
+
+      - type: f4
+        id: shadow_casting_start
+
+      - type: f4
+        id: shadow_casting_end
+
+      - type: f4
+        id: quadratic_falloff
+
+      - type: f4
+        id: linear_falloff
+
+      - type: f4
+        id: damping
+
   special_doodad:
     seq:
-      - id: id
-        type: w3id
-      - id: variation
-        type: u4
-      - id: x
-        type: u4
-      - id: y
-        type: u4
+      - type: w3id
+        id: id
+
+      - type: u4
+        id: variation
+
+      - type: u4
+        id: x
+
+      - type: u4
+        id: y

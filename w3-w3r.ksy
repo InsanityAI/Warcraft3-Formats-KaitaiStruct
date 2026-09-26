@@ -8,60 +8,76 @@ meta:
     - w3id
     - w3color
 seq:
-  - id: version
-    type: u4
-  - id: num_region
-    type: u4
-  - id: region
-    type: region
+  - type: u4
+    id: version
+
+  - type: u4
+    id: num_region
+
+  - type: region
+    id: region
     repeat: expr
     repeat-expr: num_region
 types:
   region:
     seq:
-      - id: rect
-        type: 
+      - type:
           switch-on: _root.version
           cases:
             0: rect_int
             1: rect_int
             _: rect_float
-      - id: name
-        type: strz
-      - id: id
-        type: u4
-      - id: weather_id
+        id: rect
+
+      - type: strz
+        id: name
+
+      - type: u4
+        id: id
+
+      - if: _root.version >= 3
         type: w3id
-        if: _root.version >= 3
-      - id: ambient_sound
+        id: weather_id
+
+      - if: _root.version >= 4
         type: strz
-        if: _root.version >= 4
-      - id: color
+        id: ambient_sound
+
+      - if: _root.version >= 5
         type: w3color
-        if: _root.version >= 5
-      - id: block_camera
+        id: color
+
+      - if: _root.version >= 7
         type: u4
-        if: _root.version >= 7
-      - id: alpha_tile_minimap_color
+        id: block_camera
+
+      - if: _root.version >= 7
         type: u4
-        if: _root.version >= 7
+        id: alpha_tile_minimap_color
+
   rect_float:
     seq:
-      - id: left
-        type: f4
-      - id: bottom
-        type: f4
-      - id: right
-        type: f4
-      - id: top
-        type: f4
+      - type: f4
+        id: left
+
+      - type: f4
+        id: bottom
+
+      - type: f4
+        id: right
+
+      - type: f4
+        id: top
   rect_int:
     seq:
-      - id: left
-        type: s4
-      - id: bottom
-        type: s4
-      - id: right
-        type: s4
-      - id: top
-        type: s4
+      - type: s4
+        id: left
+
+      - type: s4
+        id: bottom
+
+      - type: s4
+        id: right
+
+      - type: s4
+        id: top

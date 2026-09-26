@@ -5,144 +5,183 @@ meta:
   bit-endian: le
   encoding: utf-8
 seq:
-  - id: version
-    type: u4
-  - id: num_sound
-    type: u4
-  - id: sound
-    type: sound
+  - type: u4
+    id: version
+
+  - type: u4
+    id: num_sound
+
+  - type: sound
+    id: sound
     repeat: expr
     repeat-expr: num_sound
+
 types:
   sound:
     seq:
-      - id: name
-        type: strz
+      - type: strz
+        id: name
         doc: Variable name for scripts, Always prefixed with 'gg_snd_'
-      - id: path
-        type: strz 
+
+      - type: strz
+        id: path
         doc: Filepath of the sound
-      - id: eax
-        type: strz
+
+      - type: strz
+        id: eax
         doc: Effect dropdown value, must be either; DefaultEAXON, CombatSoundsEAX, KotoDrumsEAX, SpellsEAX, MissilesEAX, HeroAcksEAX, DoodadsEAX
-      - id: flags
+
+      - type: flags
+        id: flags
         size: 4
-        type: flags
-      - id: fade_in_rate
-        type: u4
+
+      - type: u4
+        id: fade_in_rate
         doc: Default value 0
-      - id: fade_out_rate
-        type: u4
+
+      - type: u4
+        id: fade_out_rate
         doc: Default value 0
-      - id: volume
-        type: u4
+
+      - type: u4
+        id: volume
         doc: Default value 0
-      - id: pitch
-        type: f4
+
+      - type: f4
+        id: pitch
         doc: Default value 1.0
-      - id: pitch_variance
-        type: f4
+
+      - type: f4
+        id: pitch_variance
         doc: Default value UINTMAX as float
-      - id: priority
-        type: u4
+
+      - type: u4
+        id: priority
         doc: Default value 10
-      - id: channel
-        type: s4
+
+      - type: s4
+        id: channel
         doc: Default value -1
+
         enum: channel
-      - id: min_distance
-        type: f4
+      - type: f4
+        id: min_distance
         doc: Default value UINTMAX as float
-      - id: max_distance
-        type: f4
+
+      - type: f4
+        id: max_distance
         doc: Default value UINTMAX as float
-      - id: cutoff_distance
-        type: f4
+
+      - type: f4
+        id: cutoff_distance
         doc: Default value 10000.0
-      - id: cone_inside
-        type: f4
+
+      - type: f4
+        id: cone_inside
         doc: Default value UINTMAX as float
-      - id: cone_outside
-        type: f4
+
+      - type: f4
+        id: cone_outside
         doc: Default value UINTMAX as float
-      - id: cone_outside_volume
-        type: s4
+
+      - type: s4
+        id: cone_outside_volume
         doc: Default value -1
-      - id: cone_orientation_x
-        type: f4
+
+      - type: f4
+        id: cone_orientation_x
         doc: Default value UINTMAX as float
-      - id: cone_orientation_y
-        type: f4
+
+      - type: f4
+        id: cone_orientation_y
         doc: Default value UINTMAX as float
-      - id: cone_orientation_z
-        type: f4
+
+      - type: f4
+        id: cone_orientation_z
         doc: Default value UINTMAX as float
-      - id: var_name
+
+      - if: _root.version >= 2
         type: strz
+        id: var_name
         doc: Same as name
-        if: _root.version >= 2
-      - id: internal_sound_name
+
+      - if: _root. version >= 2
         type: strz
+        id: internal_sound_name
         doc: Label SLK
-        if: _root. version >= 2
-      - id: sound_path
+
+      - if: _root.version >= 2
         type: strz
+        id: sound_path
         doc: Same as path
-        if:  _root.version >= 2
-      - id: dialogue_id
+
+      - if: _root.version >= 2
         type: s4
+        id: dialogue_id
         doc: default value -1
-        if:  _root.version >= 2
-      - id: production_comment
+
+      - if: _root.version >= 2
         type: strz
+        id: production_comment
         doc: always empty
-        if:  _root.version >= 2
-      - id: speaker_name_id
+
+      - if: _root.version >= 2
         type: s4
+        id: speaker_name_id
         doc: default value -1
-        if:  _root.version >= 2
-      - id: listener_name
+
+      - if: _root.version >= 2
         type: strz
+        id: listener_name
         doc: always empty
-        if:  _root.version >= 2
-      - id: asset_flags
+
+      - if: _root.version >= 2
         type: u4
+        id: asset_flags
         doc: Unknown flags - unused, default value 0
-        if:  _root.version >= 2
-      - id: speaker_unit_id
+
+      - if: _root.version >= 2
         type: strz
+        id: speaker_unit_id
         doc: always empty, according to conversations.json, it should be a FourCC code, but it acts as a string
-        if:  _root.version >= 2
-      - id: animation_label
+
+      - if: _root.version >= 2
         type: strz
+        id: animation_label
         doc: always empty
-        if:  _root.version >= 2
-      - id: animation_group
+
+      - if: _root.version >= 2
         type: strz
+        id: animation_group
         doc: always empty
-        if:  _root.version >= 2
-      - id: animation_set_filepath
+
+      - if: _root.version >= 2
         type: strz
+        id: animation_set_filepath
         doc: always empty
-        if:  _root.version >= 2
-      - id: animation_set_filepath_is_map_relative
+
+      - if: _root.version >= 3
         type: u4
+        id: animation_set_filepath_is_map_relative
         doc: default value 1
-        if:  _root.version >= 3
+
   flags:
     seq:
-      - id: is_looping
-        type: b1
-      - id: is_3d
-        type: b1
-      - id: stop_when_out_of_range
-        type: b1
-      - id: is_music
-        type: b1
-      - id: is_imported
-        type: b1
-      - id: rest
-        type: b3
+      - type: b1
+        id: is_looping
+
+      - type: b1
+        id: is_3d
+
+      - type: b1
+        id: stop_when_out_of_range
+
+      - type: b1
+        id: is_music
+
+      - type: b1
+        id: is_imported
+
 enums:
   channel:
     -1: default # general
