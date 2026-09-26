@@ -1,15 +1,18 @@
 meta:
   id: w3color
 seq:
-  - id: blue
-    type: u1
+  - type: u1
+    id: blue
     doc: blue value 0-255
-  - id: green
-    type: u1
+
+  - type: u1
+    id: green
     doc: green value 0-255
-  - id: red
-    type: u1
+
+  - type: u1
+    id: red
     doc: red value 0-255
-  - id: alpha
-    type: u1
+
+  - type: u1
+    id: alpha
     doc: alpha value 0-255

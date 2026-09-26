@@ -1,7 +1,7 @@
 meta:
   id: w3id
+  encoding: ASCII
 seq:
-  - id: value
-    encoding: ASCII
+  - type: str
+    id: value
     size: 4
-    type: str

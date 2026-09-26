@@ -1,6 +1,6 @@
 meta:
   id: w3str
+  encoding: UTF-8
 seq:
-  - id: value
-    encoding: UTF-8
-    type: strz
+  - type: strz
+    id: value
