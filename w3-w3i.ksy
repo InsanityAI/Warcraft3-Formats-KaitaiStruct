@@ -36,15 +36,15 @@ seq:
   - type: strz
     id: description
 
-  - type: strz
+  - if: version >= 8
+    type: strz
     id: recommended_players
-    if: version >= 8
 
-  - if: version <= 3
+  - if: version < 4
     type: unknown_v0_to_v3
     id: unknown_v0_to_v3
 
-  - if: version > 3 and version <= 8
+  - if: version >= 4 and version < 9
     type: unknown_v4_to_v8
     id: unknown_v4_to_v8
 
@@ -63,7 +63,7 @@ seq:
     type: u4
     id: map_height
 
-  - if: version >= 2 and version <= 8
+  - if: version >= 2 and version < 9
     type: u4
     id: unknown_v3_int1
 
@@ -77,17 +77,15 @@ seq:
     id: tileset
     enum: tileset
 
-  - type: loading_screen
+  - if: version >= 10
+    type: loading_screen
     id: loading_screen
 
   - if: version >= 17
     type: u4
     id: game_data_set
     enum: game_data_set
-
-  - if: version <= 17
-    type: strz
-    id: unknown_path
+    docs: in some older versions, it was references as prologue image id
 
   - if: version >= 13
     type: prologue_screen
@@ -183,7 +181,8 @@ seq:
   - type: players_chunk
     id: players_chunk
 
-  - type: forces_chunk
+  - if: _root.version >= 3
+    type: forces_chunk
     id: forces_chunk
 
   - if: version >= 6
@@ -376,12 +375,15 @@ types:
         id: race_crest
         enum: player_hud
 
-      - if: _root.version >= 10 and _root.version != 18 and _root.version != 19
+      - if: _root.version < 18
+        type: strz
+        id: unknown_path
+
+      - if:  _root.version >= 20
         type: strz
         id: custom_loading_screen_path
 
-      - if: _root.version >= 10
-        type: strz
+      - type: strz
         id: loading_screen_text
 
       - if: _root.version >= 11
@@ -391,9 +393,14 @@ types:
       - if: _root.version >= 11
         type: strz
         id: loading_screen_subtitle
+
   prologue_screen:
     seq:
-      - if: _root.version != 18 and _root.version != 19
+      - if: version < 18
+        type: strz
+        id: unknown_prologue_path
+
+      - if: _root.version >= 20
         type: strz
         id: prologue_screen_path
 
@@ -542,6 +549,9 @@ types:
         id: allied_victory
 
       - type: b1
+        id: reserved
+
+      - type: b1
         id: share_vision
 
       - type: b1
@@ -575,7 +585,7 @@ types:
 
   upgrade:
     seq:
-      - type: u4
+      - type: player_bitmap
         id: players
 
       - type: w3id
@@ -586,6 +596,7 @@ types:
 
       - type: u4
         id: availability
+        enum: upgrade_availability
 
   techs_chunk:
     seq:
@@ -599,7 +610,7 @@ types:
 
   tech:
     seq:
-      - type: u4
+      - type: player_bitmap
         id: players
 
       - type: w3id
@@ -757,6 +768,10 @@ enums:
     8: undead
     4: night_elf
     128: forsaken
+  upgrade_availability:
+    0: unavailable
+    1: available
+    2: researched
   random_unit_table_column_type:
     0: unit_table
     1: building_table
