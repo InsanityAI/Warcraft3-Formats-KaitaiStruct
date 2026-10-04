@@ -85,7 +85,7 @@ seq:
     type: u4
     id: game_data_set
     enum: game_data_set
-    docs: in some older versions, it was references as prologue image id
+    doc: in some older versions, it was references as prologue image id
 
   - if: version >= 13
     type: prologue_screen
@@ -396,7 +396,7 @@ types:
 
   prologue_screen:
     seq:
-      - if: version < 18
+      - if: _root.version < 18
         type: strz
         id: unknown_prologue_path
 
