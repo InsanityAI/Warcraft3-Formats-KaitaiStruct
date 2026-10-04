@@ -82,7 +82,7 @@ seq:
     id: loading_screen
 
   - if: version >= 17
-    type: u4
+    type: s4
     id: game_data_set
     enum: game_data_set
     doc: in some older versions, it was references as prologue image id
@@ -732,6 +732,7 @@ enums:
     0x65: lordaeron_capital #e
     0x75: undercity #u
   game_data_set:
+    -1: default_default
     0: default
     1: custom
     2: melee
