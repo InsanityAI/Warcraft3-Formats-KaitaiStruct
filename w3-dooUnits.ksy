@@ -62,7 +62,8 @@ types:
         type: w3id
         id: skin_id
 
-      - type: u4
+      - if: _root.version >= 13
+        type: u4
         id: group_id
 
       - if: _root.version >= 6
