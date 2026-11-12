@@ -156,8 +156,9 @@ types:
         id: path
   w3_map_order:
     seq:
-      - type: strz
-        id: unknown
+      - type: u1
+        id: padding
+        doc: 'Always 0'
 
       - type: strz
         id: path
