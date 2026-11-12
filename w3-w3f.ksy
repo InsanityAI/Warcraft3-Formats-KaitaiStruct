@@ -2,85 +2,162 @@ meta:
   id: w3_w3f
   file-extension: w3f
   endian: le
+  bit-endian: le
+  encoding: utf-8
   imports:
-    - w3str
     - w3color
 seq:
-  - id: version
-    type: u4
-  - id: saves
-    type: u4
-  - id: editor_version
-    type: u4
-  - id: name
-    type: w3str
-  - id: difficulty
-    type: w3str
-  - id: author
-    type: w3str
-  - id: description
-    type: w3str
-  - id: variable_difficulty_levels_flag_and_expansion_flag
-    type: u4
-    enum: variable_difficulty_levels_flag_and_expansion_flag
-  - id: background_screen_index
-    type: u4
-  - id: background_screen_path
-    type: w3str
-  - id: minimap_picture_path
-    type: w3str
-  - id: ambient_sound_index
-    type: u4
-  - id: custom_ambient_sound_path
-    type: w3str
-  - id: use_terrain_fog
-    type: u4
-  - id: fog_z_height
-    type: f4
-  - id: fog_z_end
-    type: f4
-  - id: fog_density
-    type: f4
-  - id: color
-    type: w3color
-  - id: cursor_race_index
-    type: u4
-  - id: num_map
-    type: u4
-  - id: map
-    type: w3_map
+  - type: u4
+    id: version
+
+  - type: u4
+    id: saves
+
+  - type: u4
+    id: editor_version
+
+  - type: strz
+    id: name
+
+  - type: strz
+    id: difficulty
+
+  - type: strz
+    id: author
+
+  - type: strz
+    id: description
+
+  - type: flags
+    size: 4
+    id: campaign_flags
+
+  - type: u4
+    id: background_screen_index
+
+  - type: strz
+    id: background_screen_path
+
+  - type: strz
+    id: minimap_picture_path
+
+  - type: u4
+    id: ambient_sound_index
+
+  - type: strz
+    id: custom_ambient_sound_path
+
+  - type: fog
+    id: fog
+
+  - type: u4
+    id: cursor_race_index
+
+  - type: u4
+    id: num_map
+
+  - type: w3_map
+    id: map
     repeat: expr
     repeat-expr: num_map
-  - id: num_map_order
-    type: u4
-  - id: map_order
-    type: w3_map_order
+
+  - type: u4
+    id: num_map_order
+
+  - type: w3_map_order
+    id: map_order
     repeat: expr
     repeat-expr: num_map_order
 types:
+  fog:
+    seq:
+      - if: _root.version >= 1
+        type: u4
+        id: fog_type
+        enum: fog_type
+    
+      - if: _root.version >= 1
+        type: f4
+        id: fog_z_start
+
+      - if: _root.version >= 1
+        type: f4
+        id: fog_z_end
+
+      - if: _root.version >= 1
+        type: f4
+        id: fog_density
+
+      - if: _root.version >= 1
+        type: w3color
+        id: fog_color
+  
+      - if: _root.version >= 3
+        type: u4
+        id: unknown
+
+      - if: _root.version >= 3
+        type: f4
+        id: fog_height_start
+
+      - if: _root.version >= 3
+        type: f4
+        id: fog_height_end
+
+      - if: _root.version >= 3
+        type: f4
+        id: fog_linear_start
+
+      - if: _root.version >= 3
+        type: f4
+        id: fog_linear_end
+
+      - if: _root.version >= 3
+        type: f4
+        id: fog_max_opacity
+
+      - if: _root.version >= 3
+        type: u4
+        id: draw_fog_over_sky
+    enums:
+      fog_type:
+        0: linear
+        1: exp
+        2: exp2
+        3: height
+        4: new_exp
+        5: new_exp2
+  flags:
+    seq:
+      - type: b1
+        id: is_variable_difficulty
+
+      - type: b1
+        id: is_expansion
+  map_flags:
+    seq:
+      - type: b1
+        id: is_visible
+      - type: b1
+        id: is_cinematic
   w3_map:
     seq:
-      - id: visibility
-        type: u4
-        enum: map_visibility
-      - id: chapter_title
-        type: w3str
-      - id: map_title
-        type: w3str
-      - id: path
-        type: w3str
+      - type: map_flags
+        size: 4
+        id: visibility
+
+      - type: strz
+        id: chapter_title
+
+      - type: strz
+        id: map_title
+
+      - type: strz
+        id: path
   w3_map_order:
     seq:
-      - id: unknown
-        type: w3str
-      - id: path
-        type: w3str
-enums:
-  variable_difficulty_levels_flag_and_expansion_flag:
-    0: fixed
-    1: variable
-    2: fixed_w3x
-    3: variable_w3x
-  map_visibility:
-    0: invisible
-    1: visible
+      - type: strz
+        id: unknown
+
+      - type: strz
+        id: path
